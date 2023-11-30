@@ -10,7 +10,7 @@ function getModuleVersion()
 // Function to get the latest version from GitHub
 function getLatestVersion()
 {
-    $latestVersion = file_get_contents('https://raw.githubusercontent.com/autovm-modules/AutoVM-WHMCS-Modules/main/version.txt');
+    $latestVersion = file_get_contents('https://raw.githubusercontent.com/saliar86/testupdate/main/module/version.txt');
     return $latestVersion !== false ? trim($latestVersion) : null;
 }
 
@@ -19,7 +19,11 @@ function isUpdateNeeded()
 {
     $currentVersion = getModuleVersion();
     $latestVersion = getLatestVersion();
-
+    echo('<br>');echo('<br>');
+    echo('Local file version is = ' . $currentVersion);
+    echo('<br>');echo('<br>');
+    echo('Latest version on git is = ' . $latestVersion);
+    echo('<br>');echo('<br>');
     return $currentVersion !== null && $latestVersion !== null && $currentVersion !== $latestVersion;
 }
 
@@ -51,7 +55,7 @@ function runUpdate()
 // Main script logic
 if (isUpdateNeeded()) {
     runUpdate();
-    echo "Module updated successfully.";
+    echo "<br>Module updated successfully.<br>";
 } else {
-    echo "Module is up to date.";
+    echo "<br>Module is up to date.<br>";
 }

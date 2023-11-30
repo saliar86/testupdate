@@ -19,16 +19,26 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <button href="/update.php">update</button>
+            <a href="/update.php">update</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12">
-            <?php 
-                $latestVersion = file_get_contents('https://github.com/saliar86/testupdate.git/main/version.txt');
-                return $latestVersion !== false ? trim($latestVersion) : null; 
-            ?>
+        <?php
+                // URL of the version.txt file on GitHub
+                $versionFileUrl = 'https://raw.githubusercontent.com/saliar86/testupdate/main/module/version.txt';
+
+                // Get the contents of the version.txt file
+                $versionContent = file_get_contents($versionFileUrl);
+
+                // Display the contents
+                if ($versionContent !== false) {
+                    echo 'Module Version: ' . $versionContent;
+                } else {
+                    echo 'Failed to retrieve version information.';
+                }
+        ?>
         </div>
     </div>
 </body>
