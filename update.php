@@ -31,7 +31,7 @@ function isUpdateNeeded()
 function runUpdate()
 {
     $moduleDir = __DIR__ . '/module';
-    $backupDir = $moduleDir . '/old';
+    $backupDir = __DIR__ . '/backupDir';
 
     // Create the backup directory if it doesn't exist
     if (!file_exists($backupDir)) {
@@ -49,8 +49,32 @@ function runUpdate()
     array_map('unlink', glob($moduleDir . '/*'));
 
     // Clone or pull the latest module files from GitHub
-    exec('git -C ' . $moduleDir . ' pull origin main');
+    cloneGit();
+    
 }
+
+
+function cloneGit()
+{
+    // Set the repository URL and target directory
+    $repositoryUrl = 'https://github.com/saliar86/testupdate.git';
+    $targetDirectory = '/module';
+
+    // Git clone command
+    $gitCloneCommand = 'git clone ' . $repositoryUrl . ' ' . $targetDirectory;
+
+    // Execute the Git clone command
+    exec($gitCloneCommand, $output, $returnCode);
+
+    // Check for errors and display output
+    if ($returnCode !== 0) {
+        echo 'Git clone failed with return code ' . $returnCode . PHP_EOL;
+        echo 'Output: ' . implode(PHP_EOL, $output) . PHP_EOL;
+    } else {
+        echo 'Git clone successful.' . PHP_EOL;
+    }
+}
+
 
 // Main script logic
 if (isUpdateNeeded()) {

@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-12">
             <p class="fs-6">
-                Current Version= <?php include('./module/version.txt') ; ?>
+                Local version = <?php include('./module/version.txt') ; ?>
             </p>
         </div>
     </div>
@@ -34,7 +34,7 @@
 
                 // Display the contents
                 if ($versionContent !== false) {
-                    echo 'Module Version: ' . $versionContent;
+                    echo 'Github Version: ' . $versionContent;
                 } else {
                     echo 'Failed to retrieve version information.';
                 }
