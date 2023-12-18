@@ -1,10 +1,10 @@
 <?php
 
 // URL of the zip file
-$zipFileUrl = 'https://dev.frenchexam.ir/codes.zip';
+$zipFileUrl = 'https://dev.frenchexam.ir/ZipToDownload.zip';
 
 // Local path to save the zip file
-$localZipFilePath = __DIR__ . '/codes.zip';
+$localZipFilePath = __DIR__ . '/ZipToDownload.zip';
 
 // Local directory to unzip the contents
 $localExtractPath = __DIR__ . '/DownloadFolder/new';
