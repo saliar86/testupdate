@@ -7,7 +7,7 @@ $zipFileUrl = 'https://dev.frenchexam.ir/codes.zip';
 $localZipFilePath = __DIR__ . '/codes.zip';
 
 // Local directory to unzip the contents
-$localExtractPath = __DIR__ . '/new';
+$localExtractPath = __DIR__ . '/DownloadFolder/new';
 
 // Initialize cURL session
 $ch = curl_init($zipFileUrl);
