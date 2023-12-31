@@ -1,43 +1,64 @@
 <?php   include_once('autovmupdatefunc.php');    ?>
-    
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autovm Module Updater</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-</head>
-<body class="container bg-dark text-light p-5">
-    <div class="d-felx flex-row justify-content-center align-items-center py-5">
-        <span class="h3">
-            Autovm Module Updater
-        </span>
-        (
-        <span class="text-primary">
-            <?php echo($RemoteVersion); ?>
-        </span>
-        )
-    </div>
-    <div class="d-felx flex-row justify-content-center align-items-center">
-        <p>
-            <span>
-                Your Module Version is 
-            </span>
-            <span class="text-warning">
-                <?php echo($LocalVersion); ?>
-            </span>
-            <span class="text-light">
-                and you should update by click on 
-            </span>
-            <a class="btn btn-primary px-3 mx-2" href="autovmupdatefunc.php?funcmethod=update">Update Module</a>
-        </p>
-    </div>
-    <div class="d-flex flex-row justify-content-end align-items-center">
-        <a class="btn btn-danger px-3 mx-2" href="autovmupdatefunc.php?funcmethod=install">Install Module For Fisrt Time</a>
-        <a class="btn btn-danger px-3 mx-2" href="autovmupdatefunc.php?funcmethod=delete">Delete Module</a>
-    </div>
-</body>
-</html>
+<?php   include('updater/header.php');    ?>
 
+<div id="app">
+    <div class="row" v-cloak>
+        <div class="col-12 col-md-6">
+            <div class="d-felx flex-row justify-content-center align-items-center py-5">
+                <span class="h3">
+                    AutoVM Module Updater
+                </span>
+                <span class="btn btn-warning py-0 rounded-5 btn-sm ms-4 px-4 py-1 mb-2">
+                    Latest Version:
+                    <?php if($RemoteVersion == 0): ?>
+                        can't find any
+                    <?php else: ?>
+                        <?php echo($RemoteVersion); ?>
+                    <?php endif ?>
+                </span>
+            </div>
+
+            <div class="d-felx flex-row justify-content-center align-items-center mt-5 pt-5">
+                <p>
+                    <?php if($LocalVersion == 0 || $RemoteVersion == 0): ?>
+                        <span class="text-warning">
+                            Can not find Versions, please install again
+                        </span>
+                    <?php else: ?>
+                        <span>
+                            Your Module Version is 
+                        </span>
+                        <span class="text-warning">
+                            <?php echo($LocalVersion); ?>
+                        </span>
+                        <?php if($LocalVersion == $RemoteVersion): ?>
+                            <span class="text-light">
+                                and you Module is Update 
+                            </span>
+                        <?php else: ?>
+                            <span class="text-light">
+                                and you should update it 
+                            </span>
+                        <?php endif ?>
+                    <?php endif ?>
+                </p>
+            </div>
+
+            <hr>
+            <div class="d-flex flex-row justify-content-start align-items-center">
+                <a class="btn btn-primary px-3 mx-2" @click="funcInstall">Install Module</a>
+                <a class="btn btn-primary px-3 mx-2" @click="funcUpdate">Update Module</a>
+                <a class="btn btn-primary px-3 mx-2" @click="funcDelete">Fix Permision</a>
+                <a class="btn btn-danger px-3 mx-2" @click="funcDelete">Delete Module</a>
+            </div>
+        </div>
+        <div class="col-12 col-md-6" v-if="ActonResponse">
+            <p class="h2">Result</p>
+            <hr>
+            <div v-html="ActonResponse" class="bg-body-secondary p-4 rounded-5 border-2 shadow-lg text-secondary small">
+            </div>
+        </div>
+        <div style="height:300px"></div>
+            </div>
+        </div>
+<?php   include('updater/footer.php');    ?>
