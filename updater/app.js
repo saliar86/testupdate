@@ -5,6 +5,7 @@ const { createApp } = Vue
       return {
         iframeAddress : '/autovmupdatepage.php',
         ActonResponse : null,
+        ChoseVersion: null,
       }
     },
 
@@ -13,12 +14,11 @@ const { createApp } = Vue
           axios.post('./autovmupdatefunc.php', {funcmethod: 'delete'})
           .then(response => {
             // Handle the response from the server
-            this.ActonResponse = response.data;
-            console.log(response.data);
+            this.ActonResponse = response.data
           })
           .catch(error => {
             // Handle errors
-            console.error(error);
+            this.ActonResponse = error;
           });
         }, 
 
@@ -26,12 +26,11 @@ const { createApp } = Vue
           axios.post('./autovmupdatefunc.php', {funcmethod: 'install'})
           .then(response => {
             // Handle the response from the server
-            this.ActonResponse = response.data;
-            console.log(response.data);
+            this.ActonResponse = response.data
           })
           .catch(error => {
             // Handle errors
-            console.error(error);
+            this.ActonResponse = error;
           });
         },
 
@@ -39,12 +38,23 @@ const { createApp } = Vue
           axios.post('./autovmupdatefunc.php', {funcmethod: 'update'})
           .then(response => {
             // Handle the response from the server
-            this.ActonResponse = response.data;
-            console.log(response.data);
+            this.ActonResponse = response.data
           })
           .catch(error => {
             // Handle errors
-            console.error(error);
+            this.ActonResponse = error;
+          });
+        },
+        
+        funcFix() {
+          axios.post('./autovmupdatefunc.php', {funcmethod: 'fix'})
+          .then(response => {
+            // Handle the response from the server
+            this.ActonResponse = response.data
+          })
+          .catch(error => {
+            // Handle errors
+            this.ActonResponse = error;
           });
         }
     },

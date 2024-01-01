@@ -48,13 +48,11 @@
             <div class="d-flex flex-row justify-content-start align-items-center">
                 <a class="btn btn-primary px-3 mx-2" @click="funcInstall">Install Module</a>
                 <a class="btn btn-primary px-3 mx-2" @click="funcUpdate">Update Module</a>
-                <a class="btn btn-primary px-3 mx-2" @click="funcDelete">Fix Permision</a>
+                <a class="btn btn-primary px-3 mx-2" @click="funcFix">Fix Permision</a>
                 <a class="btn btn-danger px-3 mx-2" @click="funcDelete">Delete Module</a>
             </div>
         </div>
         <div class="col-12 col-md-6" v-if="ActonResponse">
-            <p class="h2">Result</p>
-            <hr>
             <div v-html="ActonResponse" class="bg-body-secondary p-4 rounded-5 border-2 shadow-lg text-secondary small">
             </div>
         </div>

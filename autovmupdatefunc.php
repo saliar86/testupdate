@@ -1,6 +1,11 @@
 <?php
-$InfoAreFine = true;
+// test parts
+// $permissions = fileperms('autovmupdatefunc.php');
+// echo substr(decoct($permissions), -3);
 
+
+
+$maxDepth = 5;
 $DirectoriesList = ['console', 'includes/hooks/autovm', 'modules/addons/autovm', 'modules/addons/cloudsnp', 'modules/addons/cloud', 'modules/servers/balance', 'modules/servers/traffic', 'modules/servers/product', 'includes/hooks/balance.php', 'includes/hooks/autovm.php'];
 $RemoteZipAddress = 'http://localhost:8888/whmcsmodule.zip';
 $RemoteVersionAddress = 'http://localhost:8888/autovmversion.txt';
@@ -14,16 +19,7 @@ $LocalVersion = file_get_contents($LocalVersionAddress);
 if(empty($LocalVersion)){$LocalVersion = 0;}
 
 
-
-
-
-
-
-
-
-
-
-
+// Read Method
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $requestData = json_decode(file_get_contents('php://input'), true);
     if (isset($requestData['funcmethod'])) {
@@ -32,11 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-
-
-
-
-if(empty($method) || ($method != 'install' && $method != 'delete' && $method != 'update')){
+// Check Method
+if(empty($method) || ($method != 'install' && $method != 'delete' && $method != 'update' && $method != 'fix')){
     $method = 'none';
 }
 
@@ -45,14 +38,24 @@ if($method == 'none'){
 }
 
 
-if($method == 'install')
+if($method == 'install' || $method == 'update')
 {
     DownloadZip($RemoteZipAddress, $localZipAddress);
     ExtractZip($localZipAddress, $RooteAddress);
     DeletDirectory('__MACOSX');
     DeletDirectory('downloaded.zip');
+    foreach ($DirectoriesList as $item) {
+        setPermissions($item, $maxDepth);
+    }
 }
 
+
+if($method == 'fix')
+{    
+    foreach ($DirectoriesList as $item) {
+        setPermissions($item, $maxDepth);
+    }
+}
 
 
 if($method == 'delete')
@@ -61,13 +64,6 @@ if($method == 'delete')
         DeletDirectory($item);
     }
 }
-
-
-if($method == 'update')
-{
-    echo ('updated');
-}
-
 
 function DeletDirectory($src) {
     $notexist = '<span class="text-danger">Not Exist: </span>';
@@ -107,7 +103,6 @@ function DeletDirectory($src) {
     
 }
 
-
 function DownloadZip($RemoteZipAddress, $localZipAddress) 
 {
     
@@ -126,7 +121,7 @@ function DownloadZip($RemoteZipAddress, $localZipAddress)
     if (curl_errno($ch)) {
         echo 'Curl error: ' . curl_error($ch);
     } else {
-        echo 'Zip file downloaded successfully.';
+        echo 'Zip file downloaded successfully.<br>';
     }
 
     // Close cURL session and file pointer
@@ -145,15 +140,41 @@ function ExtractZip($localZipAddress, $RooteAddress)
             // Extract the contents to the local directory
             $zip->extractTo($RooteAddress);
             $zip->close();
-            echo 'Zip file extracted successfully.';
+            echo 'Zip file extracted successfully.<br>';
         } else {
-            echo 'Failed to open the zip file.';
+            echo 'Failed to open the zip file.<br>';
         }
     } else {
-        echo 'Failed to download the zip file.';
+        echo 'Failed to download the zip file.<br>';
     }
 }
 
+
+
+
+function setPermissions($path, $maxDepth = 5, $currentDepth = 0) {
+    if ($currentDepth > $maxDepth) {
+        return; // Stop recursion if maximum depth is reached
+    }
+
+    if (is_dir($path)) {
+        // Set permissions for folders to 755
+        chmod($path, 0755);
+        echo('0755 : ' . $path . '<br>');
+
+        // Get all items in the folder
+        $items = glob($path . '/*');
+        
+        // Set permissions recursively for each item
+        foreach ($items as $item) {
+            setPermissions($item, $maxDepth, $currentDepth + 1);
+        }
+    } elseif (is_file($path)) {
+        // Set permissions for files to 644
+        chmod($path, 0644);
+        echo('0644 : ' . $path . '<br>');
+    }
+}
 
 
 
