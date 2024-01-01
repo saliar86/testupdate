@@ -1,5 +1,5 @@
 <?php   include_once('autovmupdatefunc.php');    ?>
-<?php   include('updater/header.php');    ?>
+<?php   include('autovmupdater/header.php');    ?>
 
 <div id="app">
     <div class="row" v-cloak>
@@ -59,4 +59,4 @@
         <div style="height:300px"></div>
             </div>
         </div>
-<?php   include('updater/footer.php');    ?>
+<?php   include('autovmupdater/footer.php');    ?>
